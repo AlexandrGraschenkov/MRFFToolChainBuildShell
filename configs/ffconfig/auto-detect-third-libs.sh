@@ -27,7 +27,8 @@ THIRD_CFG_FLAGS=
 
 echo "----------------------"
 
-pkg-config --libs x264 --silence-errors >/dev/null && enable_x264=1
+# x264 is GPL: never enabled
+enable_x264=
 
 if [[ $enable_x264 ]];then
     echo "[✅] --enable-libx264 : $(pkg-config --modversion x264)"
@@ -38,7 +39,8 @@ fi
 
 echo "----------------------"
 
-pkg-config --libs x265 --silence-errors >/dev/null && enable_x265=1
+# x265 is GPL: never enabled
+enable_x265=
 
 if [[ $enable_x265 ]];then
     echo "[✅] --enable-libx265 : $(pkg-config --modversion x265)"
@@ -132,7 +134,7 @@ pkg-config --libs openssl --silence-errors >/dev/null && enable_openssl=1
 
 if [[ $enable_openssl ]];then
     echo "[✅] --enable-openssl : $(pkg-config --modversion openssl)"
-    THIRD_CFG_FLAGS="$THIRD_CFG_FLAGS --enable-nonfree --enable-openssl"
+    THIRD_CFG_FLAGS="$THIRD_CFG_FLAGS --enable-openssl"
 else
     echo "[❌] --disable-openssl"
 fi
@@ -211,8 +213,9 @@ echo "----------------------"
 #不确定7代之前的版本是否支持dvdvideo
 result=$(gt_or_equal "$GIT_REPO_VERSION" "7.1.1")
 if [[ $result ]]; then
-    pkg-config --libs dvdread --silence-errors >/dev/null && enable_dvdread=1
-    pkg-config --libs dvdnav --silence-errors >/dev/null && enable_dvdnav=1
+    # dvdread/dvdnav are GPL: never enabled
+    enable_dvdread=
+    enable_dvdnav=
     if [[ $enable_dvdread && $enable_dvdnav ]];then
         echo "[✅] --enable-demuxer=dvdvideo --enable-gpl --enable-libdvdread : $(pkg-config --modversion dvdread)"
         #libdvdread is gpl and --enable-gpl is not specified.

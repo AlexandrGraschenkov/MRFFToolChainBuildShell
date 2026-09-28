@@ -102,6 +102,8 @@ do_lipo_all() {
                 my_sed_i "s|^prefix=.*|prefix=$escaped_p|" "$pc_dst_dir/"*.pc
                 my_sed_i "s|^libdir=.*|libdir=$escaped_p/lib|" "$pc_dst_dir/"*.pc
                 my_sed_i "s|^includedir=.*|includedir=$escaped_p/include|" "$pc_dst_dir/"*.pc
+                # some libs (opus) write absolute per-arch paths into Libs/Cflags
+                my_sed_i "s|$MR_PRODUCT_ROOT/$LIB_NAME-$arch/|$p/|g" "$pc_dst_dir/"*.pc
 
                 # fix tbd link path in pkgconfig
                 # matching: /path/to/libNAME.tbd or path/to/libNAME.tbd -> -lNAME
